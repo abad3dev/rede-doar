@@ -10,8 +10,6 @@ class Usuario(models.Model):
     numero = models.IntegerField()
     complemento = models.CharField(max_length=100, blank=True, null=True)
     bairro = models.CharField(max_length=100)
-    site = models.URLField(max_length=200, blank=True, null=True)
-    contato = models.CharField(max_length=100, blank=True, null=True)
     telefone = models.CharField(max_length=15, blank=True, null=True)
     id_cidade = models.ForeignKey('Cidade', on_delete=models.CASCADE)
     usuario = models.OneToOneField(User, on_delete=models.CASCADE, related_name='usuario')

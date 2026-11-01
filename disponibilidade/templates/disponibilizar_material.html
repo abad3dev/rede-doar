@@ -36,7 +36,7 @@
     </div>
 {% endif %}
       
-<form method="post">
+<form method="post" enctype="multipart/form-data">
     {% csrf_token %}
         <div class="mb-3">
           <label for="cnpj" class="form-label">Material</label>
@@ -62,6 +62,12 @@
           <label for="valor_estimado" class="form-label">Valor unitário estimado</label>
           <input type="number" class="form-control" id="valor_estimado" name="valor_estimado" step="0.01">
         </div>
+
+        <div class="mb-3">
+          <label for="arquivo" class="form-label">Enviar foto</label>
+          <input class="form-control" type="file" id="arquivo" name="arquivo">
+        </div>
+
         <input type="hidden" name="id_material" value="{{ id_material }}">
         <input type="hidden" name="id_usuario" value="{{ id_usuario }}">
         <button type="submit" class="btn btn-primary w-100">Cadastrar</button>
