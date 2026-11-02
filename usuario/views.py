@@ -49,7 +49,7 @@ def cadastrar_usuario(request):
 @login_required
 def mostrar_cadastro(request):
 
-    id_usuario = request.session.get('id_usuario')
+    id_usuario = request.user.id
 
     usuario = get_object_or_404(Usuario, pk=id_usuario)
 

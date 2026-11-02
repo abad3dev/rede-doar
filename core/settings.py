@@ -14,6 +14,7 @@ from pathlib import Path
 import os
 from dotenv import load_dotenv
 
+
 # Load environment variables from .env file
 load_dotenv()
 
@@ -177,3 +178,11 @@ MAILERS = {
 }
 
 ACCOUNT_ADAPTER = 'core.adapters.CustomAccountAdapter'
+
+MEDIA_URL = '/media/'
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+
+
+

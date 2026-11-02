@@ -1,37 +1,26 @@
+from urllib import request
+
 from django.contrib import messages
 from django.shortcuts import get_object_or_404, redirect, render
 from disponibilidade.forms import DisponibilidadeForm
 from disponibilidade.models import Disponibilidade
 from material.models import Material
 from django.contrib.auth.decorators import login_required
+from django.db.models import F
 
 # Create your views here.
 @login_required
 def disponibilizar(request, id_material):
 
-  id_usuario = request.session.get('id_usuario')
-
-
-  if not id_usuario and request.user.is_authenticated:
-    if hasattr(request.user, 'usuario') and request.user.usuario:
-      id_usuario = request.user.usuario.id_usuario
-      request.session['id_usuario'] = id_usuario 
-
+  id_usuario = request.user.id
   
-  if not id_usuario:
-    messages.error(request, 'Por favor, complete seu cadastro de usuário primeiro.')
-    return redirect('cadastrar_usuario')
-
   if request.method == 'POST':
     form = DisponibilidadeForm(request.POST, request.FILES)
 
     if form.is_valid():
       nova_disponibilidade = form.save(commit=False)
 
-      id_usuario = request.session.get('id_usuario')
-      if id_usuario:
-        nova_disponibilidade.id_usuario_id = id_usuario
-
+      nova_disponibilidade.id_usuario_id = id_usuario
 
       nova_disponibilidade.id_material_id = id_material
 
@@ -86,11 +75,22 @@ def disponibilizar(request, id_material):
 @login_required
 def consultar_minhasdoacoes(request):
 
-    id_usuario = request.session.get('id_usuario')
+  id_usuario = request.user.id
 
-    disponibilidades = Disponibilidade.objects.filter(id_usuario=id_usuario).select_related('id_material')
+  print("ID do usuário:", id_usuario)
 
-    for disponibilidade in disponibilidades:
-        disponibilidade.valor_total = disponibilidade.quantidade * disponibilidade.valor_estimado
+  disponibilidades = Disponibilidade.objects.filter(id_usuario=id_usuario).select_related('id_material').annotate(valor_total=F('quantidade') * F('valor_estimado'))
 
-    return render(request, 'consultar_minhasdoacoes.html', {'disponibilidades': disponibilidades})
+  return render(request, 'consultar_minhasdoacoes.html', {'disponibilidades': disponibilidades})
+
+
+@login_required
+def consultar_todasdoacoes(request):
+
+  id_usuario = request.user.id
+
+  print("ID do usuário:", id_usuario)
+
+  disponibilidades = Disponibilidade.objects.all().select_related('id_material').annotate(valor_total=F('quantidade') * F('valor_estimado'))
+
+  return render(request, 'consultar_todasdoacoes.html', {'disponibilidades': disponibilidades})
