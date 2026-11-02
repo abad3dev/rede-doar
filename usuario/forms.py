@@ -11,4 +11,9 @@ class UsuarioForm(forms.ModelForm):
         model = Usuario
         exclude = ['usuario']
 
+class UsuarioCadastroForm(forms.ModelForm): 
+    class Meta:
+        model = Usuario
+        exclude = ['usuario']
+
   

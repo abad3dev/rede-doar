@@ -1,0 +1,107 @@
+{% extends 'principal.html' %}
+{% load static %}
+
+{% block conteudo %}
+
+
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-12 col-md-8 col-lg-6">
+
+
+      {% if messages %}
+    <div class="container mt-3 mb-3">
+        {% for message in messages %}
+            <!-- A classe alert-danger é aplicada se for erro, senão usa a tag original (success, info, warning) -->
+            <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %} alert-dismissible fade show shadow-sm" role="alert">
+                
+                <!-- Ícones (FontAwesome) -->
+                {% if message.tags == 'success' %}
+                    <i class="fa-solid fa-circle-check me-2"></i>
+                {% elif message.tags == 'error' %}
+                    <i class="fa-solid fa-circle-exclamation me-2"></i>
+                {% elif message.tags == 'warning' %}
+                    <i class="fa-solid fa-triangle-exclamation me-2"></i>
+                {% elif message.tags == 'info' %}
+                    <i class="fa-solid fa-circle-info me-2"></i>
+                {% endif %}
+                
+                {{ message }}
+                
+                <!-- Botão X -->
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endfor %}
+    </div>
+{% endif %}
+
+
+      
+<form method="post">
+    {% csrf_token %}
+
+        
+        <div class="mb-3">
+          <label for="nome" class="form-label">Nome</label>
+          <input type="text" class="form-control" id="nome" name="nome" value="{{ usuario.nome }}">
+        </div>
+        
+        <div class="mb-3">
+          <label for="cep" class="form-label">CEP</label>
+          <input type="text" class="form-control" id="cep" name="cep" value="{{ usuario.cep }}">
+        </div>
+        
+        <div class="mb-3">
+          <label for="logradouro" class="form-label">Logradouro</label>
+          <input type="text" class="form-control" id="logradouro" name="logradouro" value="{{ usuario.logradouro }}">
+        </div>
+        
+        <div class="mb-3">
+          <label for="numero" class="form-label">Número</label>
+          <input type="text" class="form-control" id="numero" name="numero" value="{{ usuario.numero }}">
+        </div>
+
+        <div class="mb-3">
+          <label for="complemento" class="form-label">Complemento</label>
+          <input type="text" class="form-control" id="complemento" name="complemento" value="{{ usuario.complemento }}">
+        </div>
+        
+        <div class="mb-3">
+          <label for="bairro" class="form-label">Bairro</label>
+          <input type="text" class="form-control" id="bairro" name="bairro" value="{{ usuario.bairro }}">
+        </div>
+
+
+
+        <div class="mb-3">
+          <label for="cidade" class="form-label">Cidade</label><br>
+
+  <select id="id_cidade" name="id_cidade" class="form-control">
+    <option value="">Selecione a cidade...</option>
+    {% for cidade in cidades %}
+  
+        <option value="{{ cidade.id_cidade }}" {% if cidade.id_cidade == usuario.id_cidade.id_cidade %}selected{% endif %}>
+            {{ cidade.nome }}
+        </option>
+    {% endfor %}
+  </select>
+
+        </div>
+        
+      
+        <div class="mb-3">
+          <label for="telefone" class="form-label">Telefone</label>
+          <input type="text" class="form-control" id="telefone" name="telefone" value="{{ usuario.telefone }}">
+        </div>
+        
+
+        
+        <button type="submit" class="btn btn-primary w-100">Alterar</button>
+      </form>
+
+
+    </div>
+  </div>
+</div>
+
+{% endblock conteudo %}

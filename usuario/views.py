@@ -2,12 +2,13 @@ from urllib import request
 
 from django.contrib import messages
 
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 
-from usuario.forms import UsuarioForm
+import usuario
+from usuario.forms import UsuarioCadastroForm, UsuarioForm
 from django.contrib.auth.decorators import login_required
 
-from usuario.models import Cidade
+from usuario.models import Cidade, Usuario
 from material.models import Material, TipoMaterial
 
 @login_required
@@ -44,3 +45,31 @@ def cadastrar_usuario(request):
     cidades = Cidade.objects.all().order_by('nome')
        
     return render(request, 'cadastrar_usuario.html', {'form': form, 'cidades': cidades})
+
+@login_required
+def mostrar_cadastro(request):
+
+    id_usuario = request.session.get('id_usuario')
+
+    usuario = get_object_or_404(Usuario, pk=id_usuario)
+
+    cidades = Cidade.objects.all().order_by('nome')
+
+    if request.method == 'POST':
+
+        form = UsuarioForm(request.POST, instance=usuario)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Cadastro atualizado com sucesso!')
+
+        else:
+            print("Erros do formulário:", form.errors)
+            messages.error(request, 'Erro ao cadastrar. Verifique os dados e tente novamente.')
+
+        
+        
+        return redirect('mostrar_cadastro')
+        
+    return render(request, 'mostrar_cadastro.html', {'usuario': usuario, 'cidades': cidades})
+
+    
