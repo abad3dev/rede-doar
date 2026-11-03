@@ -6,7 +6,8 @@ from disponibilidade import views
 
 urlpatterns = [
    path('disponibilizar/<int:id_material>/', views.disponibilizar, name='disponibilizar'),
-   path('consultar_minhasdoacoes/', views.consultar_minhasdoacoes, name='consultar_minhasdoacoes'),
-   path('consultar_todasdoacoes/', views.consultar_todasdoacoes, name='consultar_todasdoacoes'),
+   path('consultar_meusitens/', views.consultar_meusitens, name='consultar_meusitens'),
+   path('consultar_itensdisponiveis/', views.consultar_itensdisponiveis, name='consultar_itensdisponiveis'),
+   path('excluir/<int:id_disponibilidade>/', views.excluir_disponibilidade, name='excluir_disponibilidade'),
 
 ]

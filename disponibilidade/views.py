@@ -73,7 +73,7 @@ def disponibilizar(request, id_material):
 
 
 @login_required
-def consultar_minhasdoacoes(request):
+def consultar_meusitens(request):
 
   id_usuario = request.user.id
 
@@ -81,16 +81,25 @@ def consultar_minhasdoacoes(request):
 
   disponibilidades = Disponibilidade.objects.filter(id_usuario=id_usuario).select_related('id_material').annotate(valor_total=F('quantidade') * F('valor_estimado'))
 
-  return render(request, 'consultar_minhasdoacoes.html', {'disponibilidades': disponibilidades})
+  return render(request, 'consultar_meusitens.html', {'disponibilidades': disponibilidades})
 
 
 @login_required
-def consultar_todasdoacoes(request):
+def consultar_itensdisponiveis(request):
 
-  id_usuario = request.user.id
+    id_usuario = request.user.id
 
-  print("ID do usuário:", id_usuario)
+    disponibilidades = Disponibilidade.objects.exclude(id_usuario=id_usuario).select_related('id_material').annotate(valor_total=F('quantidade') * F('valor_estimado'))
 
-  disponibilidades = Disponibilidade.objects.all().select_related('id_material').annotate(valor_total=F('quantidade') * F('valor_estimado'))
+    return render(request, 'consultar_itensdisponiveis.html', {'disponibilidades': disponibilidades})
 
-  return render(request, 'consultar_todasdoacoes.html', {'disponibilidades': disponibilidades})
+@login_required
+def excluir_disponibilidade(request, id_disponibilidade):
+    
+    disponibilidade = get_object_or_404(Disponibilidade, pk=id_disponibilidade)
+
+    if request.method == 'POST':
+        disponibilidade.delete()
+        return redirect('consultar_meusitens')
+        
+    return render(request, 'confirmar_exclusao_disponibilidade.html', {'disponibilidade': disponibilidade})

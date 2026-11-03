@@ -1,0 +1,35 @@
+{% extends 'principal.html' %}
+{% load static %}
+
+
+
+{% block conteudo %}
+
+<div class="d-flex justify-content-center mb-3">
+  <h5 class="mb-0">Confirmar Exclusão</h5>
+</div>
+
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-12 col-md-8 col-lg-6">
+
+      <div class="alert alert-warning shadow-sm" role="alert">
+        <i class="fa-solid fa-triangle-exclamation me-2"></i>
+        Tem certeza que deseja excluir esta disponibilidade?
+      </div>
+
+      <form method="post">
+        {% csrf_token %}
+
+
+        <button type="submit" class="btn btn-danger">Excluir</button>
+        <a href="{% url 'consultar_meusitens' %}" class="btn btn-secondary">Cancelar</a>
+      </form>
+
+    </div>
+  </div>
+
+{% endblock conteudo %}
+
+
+

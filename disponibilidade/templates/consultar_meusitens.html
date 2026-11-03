@@ -6,7 +6,7 @@
 {% block conteudo %}
 
 <div class="d-flex justify-content-center mb-3">
-  <h5 class="mb-0">Minhas doações</h5>
+  <h5 class="mb-0">Meus itens</h5>
 </div>
 
 <div class="table-responsive">
@@ -39,7 +39,7 @@
             <span>Sem foto</span>
           {% endif %}
         </td>
-        <td>Excluir</td>
+        <td><a href="{% url 'excluir_disponibilidade' disponibilidade.id_disponibilidade %}" class="btn btn-danger btn-sm">Excluir</a></td>
       </tr>
         {% endfor %}
    
