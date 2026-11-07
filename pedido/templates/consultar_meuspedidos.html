@@ -1,0 +1,132 @@
+{% extends 'principal.html' %}
+{% load static %}
+
+
+
+{% block conteudo %}
+
+<div class="d-flex justify-content-center mb-3">
+  <h5 class="mb-0">Meus itens</h5>
+</div>
+
+<div class="table-responsive">
+  <table class="table table-hover border">
+    <thead class="table-light">
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Material</th>
+        <th scope="col">Tipo</th>
+        <th scope="col">Quantidade</th>
+        <th scope="col">Estado de conservação</th>
+        <th scope="col">Data da solicitação</th>
+        <th scope="col">Foto</th>
+        <th scope="col">Status</th>
+        <th scope="col">Ações</th>
+        
+
+      </tr>
+    </thead>
+ 
+<tbody>
+      {% for pedido in pedidos %}
+      <tr>
+        <td>#{{ pedido.id_pedido }}</td>
+        <!-- Acessando Material via Disponibilidade -->
+        <td>{{ pedido.id_disponibilidade.id_material.descricao }}</td>
+        <td>{{ pedido.id_disponibilidade.id_material.id_tipo_material.tipo }}</td>
+        <!-- Dados da Disponibilidade -->
+        <td>{{ pedido.id_disponibilidade.quantidade }}</td>
+        <td>{{ pedido.id_disponibilidade.get_estado_bem_display }}</td>
+        <!-- Dados do Pedido -->
+        <td>{{ pedido.data_solicitacao|date:"d/m/Y" }}</td>
+<td>
+  {% if pedido.id_disponibilidade.arquivo %}
+    <!-- Gatilho da Modal (clique na miniatura) -->
+    <a href="#" data-bs-toggle="modal" data-bs-target="#fotoModal{{ pedido.id_pedido }}">
+      <img src="{{ pedido.id_disponibilidade.arquivo.url }}" alt="Foto" width="70" height="70" class="img-thumbnail" style="cursor: pointer;">
+    </a>
+
+    <!-- Modal do Bootstrap -->
+    <div class="modal fade" id="fotoModal{{ pedido.id_pedido }}" tabindex="-1" aria-labelledby="fotoModalLabel{{ pedido.id_pedido }}" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="fotoModalLabel{{ pedido.id_pedido }}">
+              {{ pedido.id_disponibilidade.id_material.descricao }}
+            </h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body text-center">
+            <!-- Imagem em tamanho original (responsiva na tela) -->
+            <img src="{{ pedido.id_disponibilidade.arquivo.url }}" alt="Foto original" class="img-fluid rounded">
+          </div>
+        </div>
+      </div>
+    </div>
+  {% else %}
+    <span class="text-muted">Sem foto</span>
+  {% endif %}
+</td>
+<td>
+          {% if pedido.status == 'pendente' %}
+            <span class="badge bg-warning text-dark">Pendente</span>
+          {% elif pedido.status == 'aceito' %}
+            <span class="badge bg-success">Aceito</span>
+          {% elif pedido.status == 'finalizado' %}
+            <span class="badge bg-primary">Finalizado</span>
+          {% elif pedido.status == 'cancelado' %}
+            <span class="badge bg-secondary">Cancelado</span>
+          {% elif pedido.status == 'desistido' %}
+            <span class="badge bg-dark">Desistido</span>
+          {% else %}
+            <span class="badge bg-info">{{ pedido.status }}</span>
+          {% endif %}
+        </td>
+   
+   
+        <td>
+  {% if pedido.status == 'pendente' %}
+    <a href="{% url 'cancelar_pedido' pedido.id_pedido %}" class="btn btn-danger btn-sm">
+      Cancelar
+    </a>
+
+  {% elif pedido.status == 'aceito' %}
+    <div class="d-flex gap-1 justify-content-center">
+      <!-- Botão para abrir o popup de contato -->
+      <a href="{% url 'consultar_proprietario' pedido.id_pedido %}" 
+         onclick="abrirPopup(event, this.href, 600, 500);" 
+         class="btn btn-primary btn-sm">
+        Ver contato
+      </a>
+
+      <!-- Botão Desistir -->
+      <a href="{% url 'desistir_pedido' pedido.id_pedido %}" 
+         class="btn btn-outline-danger btn-sm">
+        Desistir
+      </a>
+    </div>
+
+  {% else %}
+    <!-- Para cancelado, desistido, recusado ou finalizado -->
+    <span class="text-muted">-</span>
+  {% endif %}
+</td>
+
+      </tr>
+      {% empty %}
+      <tr>
+        <td colspan="8" class="text-center text-muted py-3">
+          Você ainda não realizou nenhum pedido.
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+
+
+  </table>
+</div>
+
+{% endblock conteudo %}
+
+
+

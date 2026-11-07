@@ -2,6 +2,7 @@ from django.contrib import admin
 
 from disponibilidade.models import Disponibilidade
 from material.models import Material, TipoMaterial
+from pedido.models import Pedido
 
 # Register your models here.
 
@@ -13,3 +14,4 @@ admin.site.register(Usuario)
 admin.site.register(Material)
 admin.site.register(TipoMaterial)
 admin.site.register(Disponibilidade)
+admin.site.register(Pedido)

@@ -1,0 +1,79 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+        
+    <title>Rede DOAR</title>
+
+    <style>
+        
+.nav-pills .nav-link:hover {
+  background-color: #0d6efd;
+  color: #fff !important;
+}
+
+
+.nav-pills:hover .nav-link.active:not(:hover) {
+  background-color: transparent;
+  color: var(--bs-nav-link-color); 
+        </style>
+
+
+        <script>
+function abrirPopup(event, url, largura, altura) {
+  event.preventDefault();
+
+  
+  const esquerda = (window.screen.width / 2) - (largura / 2);
+  const topo = (window.screen.height / 2) - (altura / 2);
+
+  const parametros = `width=${largura},height=${altura},top=${topo},left=${esquerda},resizable=no,scrollbars=yes`;
+
+  window.open(url, 'PopupProprietario', parametros);
+}
+</script>
+
+<body>
+    
+    <div class="container py-4">
+  <div class="row g-4">
+
+    
+    <div class="col-md-3">
+    
+    <div class="sticky-top" style="top: 1rem">
+
+        <div class="mb-4 px-3">
+          <h4 class="m-0 fw-bold text-primary">Rede DOAR</h4>
+        </div>
+
+        
+
+      
+    </div>
+
+    </div>
+
+
+    <div class="col-md-9">
+    
+          {% block conteudo %}
+        
+          {% endblock conteudo %}
+      
+    </div>
+  </div>
+</div>
+
+
+<script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+{% include 'rodape.html' %}
+
+
+
+</body>
+
+</html>

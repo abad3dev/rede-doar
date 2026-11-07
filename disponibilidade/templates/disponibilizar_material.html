@@ -63,9 +63,16 @@
         </div>
 
         <div class="mb-3">
-          <label for="valor_estimado" class="form-label">Valor unitário estimado</label>
-          <input type="number" class="form-control" id="valor_estimado" name="valor_estimado" step="0.01">
-        </div>
+         <label for="estado_bem" class="form-label">Estado de conservação</label>
+        <select class="form-select" id="estado_bem" name="estado_bem" required>
+        <option value="" selected disabled>Selecione o estado...</option>
+        <option value="novo">Novo</option>
+        <option value="otimo">Ótimo</option>
+        <option value="bom">Bom</option>
+        <option value="regular">Regular</option>
+        <option value="ruim">Ruim</option>
+      </select>
+      </div>
 
         <div class="mb-3">
           <label for="arquivo" class="form-label">Enviar foto</label>

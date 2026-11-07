@@ -79,7 +79,7 @@ def consultar_meusitens(request):
 
   print("ID do usuário:", id_usuario)
 
-  disponibilidades = Disponibilidade.objects.filter(id_usuario=id_usuario).select_related('id_material').annotate(valor_total=F('quantidade') * F('valor_estimado'))
+  disponibilidades = Disponibilidade.objects.filter(id_usuario=id_usuario).select_related('id_material')
 
   return render(request, 'consultar_meusitens.html', {'disponibilidades': disponibilidades})
 
@@ -89,7 +89,7 @@ def consultar_itensdisponiveis(request):
 
     id_usuario = request.user.id
 
-    disponibilidades = Disponibilidade.objects.exclude(id_usuario=id_usuario).select_related('id_material').annotate(valor_total=F('quantidade') * F('valor_estimado'))
+    disponibilidades = Disponibilidade.objects.exclude(id_usuario=id_usuario).select_related('id_material')
 
     return render(request, 'consultar_itensdisponiveis.html', {'disponibilidades': disponibilidades})
 

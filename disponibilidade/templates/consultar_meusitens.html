@@ -13,10 +13,10 @@
   <table class="table table-hover border">
     <thead class="table-light">
       <tr>
+        <th scope="col">ID</th>
         <th scope="col">Material</th>
         <th scope="col">Quantidade</th>
-        <th scope="col">Valor unitário</th>
-        <th scope="col">Valor total</th>
+        <th scope="col">Estado de conservação</th>
         <th scope="col">Data de cadastro</th>
         <th scope="col">Foto</th>
         <th scope="col">Ações</th>
@@ -27,19 +27,48 @@
 
         {% for disponibilidade in disponibilidades %}
       <tr>
+        <td>#{{ disponibilidade.id_disponibilidade }}</td>
         <td>{{ disponibilidade.id_material.descricao }}</td>
         <td>{{ disponibilidade.quantidade }}</td>
-        <td>{{ disponibilidade.valor_estimado }}</td>
-        <td>{{ disponibilidade.valor_total }}</td>
+        <td>{{ disponibilidade.estado_bem }}</td>
         <td>{{ disponibilidade.data_publicacao }}</td>
-        <td>
-          {% if disponibilidade.arquivo %}
-            <img src="{{ disponibilidade.arquivo.url }}" alt="Foto" width="100" height="100">
-          {% else %}
-            <span>Sem foto</span>
-          {% endif %}
-        </td>
+ <td>
+  {% if disponibilidade.arquivo %}
+    <!-- Gatilho da Modal (clique na miniatura) -->
+    <a href="#" data-bs-toggle="modal" data-bs-target="#fotoModal{{ disponibilidade.id_disponibilidade }}">
+      <img src="{{ disponibilidade.arquivo.url }}" alt="Foto" width="70" height="70" class="img-thumbnail" style="cursor: pointer;">
+    </a>
+
+    <!-- Modal do Bootstrap -->
+    <div class="modal fade" id="fotoModal{{ disponibilidade.id_disponibilidade }}" tabindex="-1" aria-labelledby="fotoModalLabel{{ disponibilidade.id_disponibilidade }}" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="fotoModalLabel{{ disponibilidade.id_disponibilidade }}">
+              {{ disponibilidade.id_material.descricao }}
+            </h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body text-center">
+            <!-- Imagem em tamanho original (responsiva na tela) -->
+            <img src="{{ disponibilidade.arquivo.url }}" alt="Foto original" class="img-fluid rounded">
+          </div>
+        </div>
+      </div>
+    </div>
+  {% else %}
+    <span class="text-muted">Sem foto</span>
+  {% endif %}
+</td>
+
         <td><a href="{% url 'excluir_disponibilidade' disponibilidade.id_disponibilidade %}" class="btn btn-danger btn-sm">Excluir</a></td>
+      </tr>
+
+            {% empty %}
+      <tr>
+        <td colspan="8" class="text-center text-muted py-3">
+          Você ainda não cadastrou nenhum item.
+        </td>
       </tr>
         {% endfor %}
    

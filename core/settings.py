@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'usuario',
     'material',
     'disponibilidade',
+    'pedido',
     # allauth
     'django.contrib.sites',
     'allauth',
