@@ -68,20 +68,22 @@
   {% endif %}
 </td>
 <td>
-          {% if pedido.status == 'pendente' %}
-            <span class="badge bg-warning text-dark">Pendente</span>
-          {% elif pedido.status == 'aceito' %}
-            <span class="badge bg-success">Aceito</span>
-          {% elif pedido.status == 'finalizado' %}
-            <span class="badge bg-primary">Finalizado</span>
-          {% elif pedido.status == 'cancelado' %}
-            <span class="badge bg-secondary">Cancelado</span>
-          {% elif pedido.status == 'desistido' %}
-            <span class="badge bg-dark">Desistido</span>
-          {% else %}
-            <span class="badge bg-info">{{ pedido.status }}</span>
-          {% endif %}
-        </td>
+  {% if pedido.status == 'pendente' %}
+    <span class="badge bg-warning text-dark">Pendente</span>
+  {% elif pedido.status == 'aceito' %}
+    <span class="badge bg-success">Aceito</span>
+  {% elif pedido.status == 'finalizado' %}
+    <span class="badge bg-primary">Finalizado</span>
+  {% elif pedido.status == 'cancelado' %}
+    <span class="badge bg-secondary">Cancelado</span>
+  {% elif pedido.status == 'desistido' %}
+    <span class="badge bg-dark">Desistido</span>
+  {% elif pedido.status == 'recusado' %}
+    <span class="badge bg-danger">Recusado</span>
+  {% else %}
+    <span class="badge bg-info">{{ pedido.status }}</span>
+  {% endif %}
+</td>
    
    
         <td>

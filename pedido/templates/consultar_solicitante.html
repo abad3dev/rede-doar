@@ -1,0 +1,37 @@
+{% extends 'principal_semmenu.html' %}
+{% load static %}
+
+{% block conteudo %}
+
+<div class="d-flex justify-content-center mb-3">
+  <h5 class="mb-0">Após aceitar o pedido, entre em contato com o solicitante para acertar os detalhes.</h5>
+</div>
+
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-12 col-md-8 col-lg-6">
+
+        
+        <div class="mb-3">
+          <label for="nome" class="form-label">Nome: {{ solicitante.nome }}</label>
+          
+        </div>
+        
+      
+        <div class="mb-3">
+          <label for="telefone" class="form-label">Telefone: {{ solicitante.telefone }}</label>
+          
+        </div>
+        
+        <div class="mb-3">
+          <label for="email" class="form-label">Email: {{ email_solicitante }}</label>
+          
+        </div>
+
+
+
+    </div>
+  </div>
+</div>
+
+{% endblock conteudo %}
