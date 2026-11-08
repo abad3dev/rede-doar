@@ -29,6 +29,7 @@
         <th scope="col">Data de cadastro</th>
         <th scope="col">Foto</th>
         <th scope="col">Ações</th>
+        <th scope="col">Localização</th>
 
       </tr>
     </thead>
@@ -72,8 +73,14 @@
 </td>
 
 
-             <td><a href="{% url 'manifestar_interesse' disponibilidade.id_disponibilidade %}" class="btn btn-danger btn-sm">Manifestar interesse</a></td>
-      </tr>
+<td>
+  <a href="{% url 'mostrar_mapa' disponibilidade.id_disponibilidade %}" 
+     onclick="abrirPopup(event, this.href, 550, 520);" 
+     class="btn btn-primary btn-sm">
+    Mostrar mapa
+  </a>
+</td>
+            </tr>
 
             {% empty %}
       <tr>
