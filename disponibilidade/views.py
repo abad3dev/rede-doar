@@ -27,30 +27,30 @@ def disponibilizar(request, id_material):
             usuario = get_object_or_404(Usuario, pk=id_usuario)
 
             if usuario.cep:
-                
+                                
                 cep_limpo = re.sub(r'\D', '', str(usuario.cep))
-
+                
                 if len(cep_limpo) == 8:
                     try:
-                        
-                        url = f'https://brasilapi.com.br/api/cep/v2/{cep_limpo}'
+                                        
+                        url = f'https://cep.awesomeapi.com.br/json/{cep_limpo}'
                         resposta = requests.get(url, timeout=5)
-
+                
                         if resposta.status_code == 200:
                             dados = resposta.json()
-                            location = dados.get('location', {})
-                            coordinates = location.get('coordinates', {})
-
-                            lat = coordinates.get('latitude')
-                            lng = coordinates.get('longitude')
-
+                
+                            lat = dados.get('lat')
+                            lng = dados.get('lng')
+                
                             if lat is not None and lng is not None:
                                 nova_disponibilidade.latitude = lat
                                 nova_disponibilidade.longitude = lng
                     except requests.RequestException:
-                        
+                                        
                         pass
 
+            print ("Latitude:", nova_disponibilidade.latitude)
+            print ("Longitude:", nova_disponibilidade.longitude)
             
             nova_disponibilidade.save()
 
